@@ -1,0 +1,6 @@
+*.pyc
+.*.sw?
+.cache
+.molecule
+pytestdebug.log
+venv
