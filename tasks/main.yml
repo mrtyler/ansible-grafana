@@ -1,2 +1,2 @@
 ---
-# tasks file for ansible-role-grafana
+- { include: install.yml, tags: ["install"] }

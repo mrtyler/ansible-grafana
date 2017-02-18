@@ -1,0 +1,22 @@
+---
+- name: Enable Yum repository
+  yum_repository:
+    name: grafana
+    description: Grafana upstream yum repo
+    baseurl: "{{ grafana_repo }}"
+    gpgcheck: yes
+    gpgkey: "{{ grafana_repo_key }}"
+
+- name: Import RPM key
+  rpm_key:
+    key: "{{ grafana_repo_key }}"
+    state: present
+
+- name: Install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - "{{ grafana_packages }}"
+  notify:
+    - restart grafana
