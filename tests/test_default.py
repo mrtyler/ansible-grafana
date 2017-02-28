@@ -1,9 +1,8 @@
 from pytest import fixture
-import testinfra.utils.ansible_runner
 
 
-testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    '.molecule/ansible_inventory').get_hosts('all')
+grafana_admin_login = "admin"
+grafana_admin_password = "admin"
 
 
 # Adapted from
@@ -27,3 +26,14 @@ def test_grafana_repo_is_installed(Repository_exists):
 def test_grafana_package_is_installed(Package):
     pkg = Package("grafana")
     assert pkg.is_installed
+
+
+def test_grafana_api_accepts_our_password(Command, TestinfraBackend):
+    hostname = TestinfraBackend.get_hostname()
+    url = "%s:%s@%s:3000/api/org" % (grafana_admin_login, grafana_admin_password, hostname)
+    # This is the simplest one-liner I could find to GET a url and return just
+    # the status code.
+    # http://superuser.com/questions/590099/can-i-make-curl-fail-with-an-exitcode-different-than-0-if-the-http-status-code-i
+    cmd = Command("curl --silent --output /dev/stderr --write-out '%%{http_code}' %s" % url)
+    # Expect a 2xx status code.
+    assert cmd.stdout.startswith("2")
