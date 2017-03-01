@@ -1,7 +1,14 @@
 ---
+grafana_getdash_js_dest: /tmp/getdash_js
+grafana_getdash_js_repo: https://github.com/anryko/grafana-influx-dashboard.git
+grafana_getdash_js_sha: ae111e53ae5f3ef8d2570439d26d905612ee223e  # master as of 2017-03-01
+
 grafana_package_version: 4.1.2
 grafana_packages:
 - "grafana-{{ grafana_package_version }}"
+- git
 
 grafana_repo: https://packagecloud.io/grafana/stable/el/$releasever/$basearch
 grafana_repo_key: https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana
+
+grafana_root_dir: /usr/share/grafana

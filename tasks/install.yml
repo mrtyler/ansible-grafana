@@ -20,3 +20,18 @@
   - "{{ grafana_packages }}"
   notify:
     - restart grafana
+
+- name: Fetch getdash.js
+  git:
+    repo: "{{ grafana_getdash_js_repo }}"
+    version: "{{ grafana_getdash_js_sha }}"
+    dest: "{{ grafana_getdash_js_dest }}"
+    # getdash.js recomments depth=1 but git in centos7.3 is "too old to fully support the depth argument."
+  register: fetch_getdash_js
+
+- name: Install getdash.js
+  command: ./install.sh "{{ grafana_root_dir }}"
+  args:
+    chdir: "{{ grafana_getdash_js_dest }}"
+  become: true
+  when: fetch_getdash_js.changed
