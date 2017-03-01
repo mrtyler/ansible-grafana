@@ -4,3 +4,9 @@
     name: grafana-server
     state: restarted
     use: systemd
+
+- name: install getdash.js
+  command: ./install.sh "{{ grafana_root_dir }}"
+  args:
+    chdir: "{{ grafana_getdash_js_dest }}"
+  become: true
