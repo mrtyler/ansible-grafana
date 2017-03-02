@@ -17,6 +17,9 @@ vagrant:
     - name: ansible-role-grafana
       ansible_groups:
         - group1
+  # Not necessary, but useful for manual debugging
+  raw_config_args:
+    - "vm.network 'forwarded_port', guest: 3000, host: 3333"
 verifier:
   name: testinfra
 
