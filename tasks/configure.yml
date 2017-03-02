@@ -17,7 +17,11 @@
     # default password has already been changed.
     creates: "{{ grafana_admin_password_is_changed_file }}"
 
+# Touching a file iff it does not exist is shockingly hard in Ansible. I took
+# this workaround from
+# http://stackoverflow.com/questions/28347717/how-to-create-an-empty-file-with-ansible
 - name: Touch file to indicate admin password is changed
-  command: touch {{ grafana_admin_password_is_changed_file }}
-  args:
-    creates: "{{ grafana_admin_password_is_changed_file }}"
+  copy:
+    content: ""
+    dest: "{{ grafana_admin_password_is_changed_file }}"
+    force: no
