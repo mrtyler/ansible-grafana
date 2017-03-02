@@ -29,3 +29,10 @@
     # getdash.js recomments depth=1 but git in centos7.3 is "too old to fully support the depth argument."
   notify:
     - install getdash.js
+
+- name: Flush handlers so grafana is (re)started before we configure it
+  meta: flush_handlers
+
+- name: Wait for grafana to start
+  wait_for:
+    port: "{{ grafana_port }}"

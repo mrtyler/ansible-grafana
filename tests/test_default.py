@@ -1,6 +1,10 @@
 from pytest import fixture
 
 
+grafana_admin_login = "admin"
+grafana_admin_password = "idrcidrc"
+
+
 # Adapted from
 # http://www.axelspringerideas.de/blog/index.php/2016/08/16/continuously-delivering-infrastructure-part-1-ansible-molecule-and-testinfra/
 @fixture()
@@ -30,8 +34,6 @@ def test_gedash_js_is_installed(File):
 
 def test_grafana_api_accepts_our_password(Command, TestinfraBackend):
     hostname = TestinfraBackend.get_hostname()
-    grafana_admin_login = "admin"
-    grafana_admin_password = "admin"
     url = "%s:%s@%s:3000/api/org" % (grafana_admin_login, grafana_admin_password, hostname)
     # This is the simplest one-liner I could find to GET a url and return just
     # the status code.

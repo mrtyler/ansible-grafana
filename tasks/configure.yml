@@ -1,0 +1,23 @@
+---
+- name: Change admin password from default
+  uri:
+    method: PUT
+    user: "{{ grafana_admin_login|quote }}"
+    password: "{{ grafana_admin_default_password|quote }}"
+    force_basic_auth: true
+    body_format: json
+    body: {
+      "oldPassword": "{{ grafana_admin_default_password|quote }}",
+      "newPassword": "{{ grafana_admin_password|quote }}"
+    }
+    url: http://localhost:3000/api/user/password
+  args:
+    # Actually created by the next step. I couldn't figure a better way to
+    # calculate whether this needs to run, and of course it will fail if the
+    # default password has already been changed.
+    creates: "{{ grafana_admin_password_is_changed_file }}"
+
+- name: Touch file to indicate admin password is changed
+  command: touch {{ grafana_admin_password_is_changed_file }}
+  args:
+    creates: "{{ grafana_admin_password_is_changed_file }}"
