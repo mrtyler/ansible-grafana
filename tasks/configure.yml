@@ -2,7 +2,7 @@
 - name: Change admin password from default
   uri:
     method: PUT
-    user: "{{ grafana_admin_login|quote }}"
+    user: "{{ grafana_admin_user|quote }}"
     password: "{{ grafana_admin_default_password|quote }}"
     force_basic_auth: true
     body_format: json
@@ -29,7 +29,7 @@
 - name: Check if influxdb datasource configured
   uri:
     method: GET
-    user: "{{ grafana_admin_login|quote }}"
+    user: "{{ grafana_admin_user|quote }}"
     password: "{{ grafana_admin_password|quote }}"
     force_basic_auth: true
     body_format: json
@@ -55,7 +55,7 @@
 - name: Configure influxdb datasource
   uri:
     method: POST
-    user: "{{ grafana_admin_login|quote }}"
+    user: "{{ grafana_admin_user|quote }}"
     password: "{{ grafana_admin_password|quote }}"
     force_basic_auth: true
     body_format: json

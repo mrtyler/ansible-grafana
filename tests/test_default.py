@@ -1,7 +1,7 @@
 from pytest import fixture
 
 
-grafana_admin_login = "admin"
+grafana_admin_user = "admin"
 grafana_admin_password = "idrcidrc"
 
 
@@ -34,7 +34,7 @@ def test_gedash_js_is_installed(File):
 
 def test_grafana_api_accepts_our_password(Command, TestinfraBackend):
     hostname = TestinfraBackend.get_hostname()
-    url = "%s:%s@%s:3000/api/org" % (grafana_admin_login, grafana_admin_password, hostname)
+    url = "%s:%s@%s:3000/api/org" % (grafana_admin_user, grafana_admin_password, hostname)
     # This is the simplest one-liner I could find to GET a url and return just
     # the status code.
     # http://superuser.com/questions/590099/can-i-make-curl-fail-with-an-exitcode-different-than-0-if-the-http-status-code-i
@@ -45,7 +45,7 @@ def test_grafana_api_accepts_our_password(Command, TestinfraBackend):
 
 def test_grafana_has_influxdb_datasource(Command, TestinfraBackend):
     hostname = TestinfraBackend.get_hostname()
-    url = "%s:%s@%s:3000/api/datasources" % (grafana_admin_login, grafana_admin_password, hostname)
+    url = "%s:%s@%s:3000/api/datasources" % (grafana_admin_user, grafana_admin_password, hostname)
     cmd = Command("curl --silent %s" % url)
     print cmd
     assert '"name":"collectd (managed by ansible)"' in cmd.stdout
