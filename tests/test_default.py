@@ -41,3 +41,11 @@ def test_grafana_api_accepts_our_password(Command, TestinfraBackend):
     cmd = Command("curl --silent --output /dev/stderr --write-out '%%{http_code}' %s" % url)
     # Expect a 2xx status code.
     assert cmd.stdout.startswith("2")
+
+
+def test_grafana_has_influxdb_datasource(Command, TestinfraBackend):
+    hostname = TestinfraBackend.get_hostname()
+    url = "%s:%s@%s:3000/api/datasources" % (grafana_admin_login, grafana_admin_password, hostname)
+    cmd = Command("curl --silent %s" % url)
+    print cmd
+    assert '"name":"collectd (managed by ansible)"' in cmd.stdout

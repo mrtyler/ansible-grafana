@@ -10,7 +10,7 @@
       "oldPassword": "{{ grafana_admin_default_password|quote }}",
       "newPassword": "{{ grafana_admin_password|quote }}"
     }
-    url: http://localhost:3000/api/user/password
+    url: "http://localhost:{{ grafana_port }}/api/user/password"
   args:
     # Actually created by the next step. I couldn't figure a better way to
     # calculate whether this needs to run, and of course it will fail if the
@@ -25,3 +25,50 @@
     content: ""
     dest: "{{ grafana_admin_password_is_changed_file }}"
     force: no
+
+- name: Check if influxdb datasource configured
+  uri:
+    method: GET
+    user: "{{ grafana_admin_login|quote }}"
+    password: "{{ grafana_admin_password|quote }}"
+    force_basic_auth: true
+    body_format: json
+    url: "http://localhost:{{ grafana_port }}/api/datasources"
+  register: datasources
+
+#- debug:
+#    msg: "ALL OF DATASOURCES: {{ datasources }}"
+#- debug:
+#    msg: "DATASOURCES.JSON[0]: {{ datasources.json[0] }}"
+#- debug:
+#    msg: 'DATASOURCES.JSON[0]|TO_JSON "{{ datasources.json[0]|to_json }}"'
+#- debug:
+#    msg: "DATASOURCES.JSON[0]|FROM_JSON {{ datasources.json[0]|from_json }}"
+#- debug:
+#    msg: "SNIPPET: {{ grafana_influxdb_datasource_json_snippet }}"
+#- debug:
+#    msg: "SNIPPET|TO_JSON: {{ grafana_influxdb_datasource_json_snippet|to_json }}"
+#- debug:
+#    msg: "SNIPPET|FROM_JSON: {{ grafana_influxdb_datasource_json_snippet|from_json }}"
+
+
+- name: Configure influxdb datasource
+  uri:
+    method: POST
+    user: "{{ grafana_admin_login|quote }}"
+    password: "{{ grafana_admin_password|quote }}"
+    force_basic_auth: true
+    body_format: json
+    body: {
+      "name": "collectd (managed by ansible)",
+      "type": "influxdb",
+      "url": "http://localhost:8086",
+      "access": "proxy",
+      "basicAuth": false,
+      "database": "collectd",
+      "user": "{{ grafana_influxdb_user }}",
+      "password": "{{ grafana_influxdb_password }}",
+      "isDefault": true
+    }
+    url: "http://localhost:{{ grafana_port }}/api/datasources"
+  when: '"{{ datasources.json }}" is not defined or "{{ grafana_influxdb_datasource_json_snippet|from_json }}" not in "{{ datasources.json }}"'
