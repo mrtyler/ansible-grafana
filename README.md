@@ -34,7 +34,7 @@ Grafana admin default password, i.e. out-of-the-box password. This will be chang
 
 Grafana admin password
 
-    grafana_admin_password: idrcidrc
+    grafana_admin_password: definitelynotadmin
 
 File written when default password is changed
 
