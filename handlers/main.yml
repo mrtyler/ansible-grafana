@@ -4,10 +4,3 @@
   args:
     chdir: "{{ grafana_getdash_js_dest }}"
   become: true
-
-- name: restart grafana
-  service:
-    name: grafana-server
-    state: restarted
-    enabled: yes
-    use: systemd

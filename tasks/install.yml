@@ -18,8 +18,22 @@
     state: present
   with_items:
   - "{{ grafana_packages }}"
-  notify:
-    - restart grafana
+  register: install_packages
+
+- name: Enable and (re)start service
+  service:
+    name: grafana-server
+    enabled: yes
+    state: restarted
+    use: systemd
+  when: install_packages.changed
+  tags:
+    # ansible-lint wants me to use a handler instead of a task with 'when:
+    # something.changed' (ANSIBLE0016). When I did it that way, I needed 'meta:
+    # flush_handlers' which is more confusing than the 'when:
+    # something.changed' form, so I'm using that form and disabling linting of
+    # this play.
+    - skip_ansible_lint
 
 - name: Fetch getdash.js
   git:
@@ -29,9 +43,6 @@
     # getdash.js recomments depth=1 but git in centos7.3 is "too old to fully support the depth argument."
   notify:
     - install getdash.js
-
-- name: Flush handlers so grafana is (re)started before we configure it
-  meta: flush_handlers
 
 - name: Wait for grafana to start
   wait_for:
