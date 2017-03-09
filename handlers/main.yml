@@ -9,4 +9,5 @@
   service:
     name: grafana-server
     state: restarted
+    enabled: yes
     use: systemd

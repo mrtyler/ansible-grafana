@@ -28,6 +28,11 @@ def test_grafana_package_is_installed(Package):
     assert pkg.is_installed
 
 
+def test_grafana_service_is_enabled(Service):
+    svc = Service("grafana-server")
+    assert svc.is_enabled
+
+
 def test_gedash_js_is_installed(File):
     assert File("/usr/share/grafana/public/dashboards/getdash.js").exists
 
