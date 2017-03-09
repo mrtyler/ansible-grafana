@@ -47,5 +47,4 @@ def test_grafana_has_influxdb_datasource(Command, TestinfraBackend):
     hostname = TestinfraBackend.get_hostname()
     url = "%s:%s@%s:3000/api/datasources" % (grafana_admin_user, grafana_admin_password, hostname)
     cmd = Command("curl --silent %s" % url)
-    print cmd
     assert '"name":"collectd (managed by ansible)"' in cmd.stdout
