@@ -2,7 +2,7 @@ from pytest import fixture
 
 
 grafana_admin_user = "admin"
-grafana_admin_password = "idrcidrc"
+grafana_admin_password = "definitelynotadmin"
 
 
 # Adapted from
