@@ -38,7 +38,7 @@
 
 - name: Set fact based on influxdb datasource configuration
   set_fact:
-    influxdb_datasource_configuration: "{{ datasources.json | selectattr('name', 'equalto', 'collectd (managed by ansible)') | list }}"
+    influxdb_datasource_configuration: "{{ datasources.json | selectattr('name', 'equalto', grafana_influxdb_datasource_name) | list }}"
 
 - name: Configure influxdb datasource
   uri:
@@ -48,7 +48,7 @@
     force_basic_auth: true
     body_format: json
     body: {
-      "name": "collectd (managed by ansible)",
+      "name": "{{ grafana_influxdb_datasource_name }}",
       "type": "influxdb",
       "url": "http://localhost:8086",
       "access": "proxy",

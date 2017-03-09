@@ -8,7 +8,7 @@ grafana_getdash_js_dest: /tmp/getdash_js
 grafana_getdash_js_repo: https://github.com/anryko/grafana-influx-dashboard.git
 grafana_getdash_js_sha: ae111e53ae5f3ef8d2570439d26d905612ee223e  # master as of 2017-03-01
 
-grafana_influxdb_datasource_json_snippet: '{ "name": "collectd (managed by ansible)" }'
+grafana_influxdb_datasource_name: collectd (managed by ansible)
 grafana_influxdb_user: root
 grafana_influxdb_password: root
 
