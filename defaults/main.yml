@@ -14,8 +14,8 @@ grafana_influxdb_password: root
 
 grafana_package_version: 4.1.2
 grafana_packages:
-- "grafana-{{ grafana_package_version }}"
-- git  # Needed for installing getdash.js
+  - "grafana-{{ grafana_package_version }}"
+  - git  # Needed for installing getdash.js
 
 grafana_port: 3000
 
