@@ -41,9 +41,9 @@ getdash.js version (git sha from ``grafana_getdash_js_repo``)
 
     grafana_getdash_js_sha: ae111e53ae5f3ef8d2570439d26d905612ee223e  # master as of 2017-03-01
 
-JSON blob looked for in list of Grafana datasources. If it's found, influxdb datasource whas already been configured so Ansible won't try to add it again.
+Name given to influxdb datasource. If a datasource with this name already exists, ansible will not attempt to re-add it.
 
-    grafana_influxdb_datasource_json_snippet: '{ "name": "collectd (managed by ansible)" }'
+    grafana_influxdb_datasource_name: collectd (managed by ansible)
 
 Influxdb user
 
