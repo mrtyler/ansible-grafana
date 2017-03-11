@@ -1,0 +1,62 @@
+---
+- name: Change admin password from default
+  uri:
+    method: PUT
+    user: "{{ grafana_admin_user|quote }}"
+    password: "{{ grafana_admin_default_password|quote }}"
+    force_basic_auth: true
+    body_format: json
+    body: {
+      "oldPassword": "{{ grafana_admin_default_password|quote }}",
+      "newPassword": "{{ grafana_admin_password|quote }}"
+    }
+    url: "http://localhost:{{ grafana_port }}/api/user/password"
+  args:
+    # Actually created by the next step. I couldn't figure a better way to
+    # calculate whether this needs to run, and of course it will fail if the
+    # default password has already been changed.
+    creates: "{{ grafana_admin_password_is_changed_file }}"
+
+# Touching a file iff it does not exist is shockingly hard in Ansible. I took
+# this workaround from
+# http://stackoverflow.com/questions/28347717/how-to-create-an-empty-file-with-ansible
+- name: Touch file to indicate admin password is changed
+  copy:
+    content: ""
+    dest: "{{ grafana_admin_password_is_changed_file }}"
+    force: no
+
+- name: Check if influxdb datasource configured
+  uri:
+    method: GET
+    user: "{{ grafana_admin_user|quote }}"
+    password: "{{ grafana_admin_password|quote }}"
+    force_basic_auth: true
+    body_format: json
+    url: "http://localhost:{{ grafana_port }}/api/datasources"
+  register: datasources
+
+- name: Set fact based on influxdb datasource configuration
+  set_fact:
+    influxdb_datasource_configuration: "{{ datasources.json | selectattr('name', 'equalto', grafana_influxdb_datasource_name) | list }}"
+
+- name: Configure influxdb datasource
+  uri:
+    method: POST
+    user: "{{ grafana_admin_user|quote }}"
+    password: "{{ grafana_admin_password|quote }}"
+    force_basic_auth: true
+    body_format: json
+    body: {
+      "name": "{{ grafana_influxdb_datasource_name }}",
+      "type": "influxdb",
+      "url": "http://localhost:8086",
+      "access": "proxy",
+      "basicAuth": false,
+      "database": "collectd",
+      "user": "{{ grafana_influxdb_user }}",
+      "password": "{{ grafana_influxdb_password }}",
+      "isDefault": true
+    }
+    url: "http://localhost:{{ grafana_port }}/api/datasources"
+  when: not influxdb_datasource_configuration

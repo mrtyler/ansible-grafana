@@ -1,2 +1,25 @@
 ---
-# defaults file for ansible-role-grafana
+grafana_admin_user: admin
+grafana_admin_default_password: admin
+grafana_admin_password: definitelynotadmin
+grafana_admin_password_is_changed_file: /usr/share/grafana/admin_password_is_changed
+
+grafana_getdash_js_dest: /tmp/getdash_js
+grafana_getdash_js_repo: https://github.com/anryko/grafana-influx-dashboard.git
+grafana_getdash_js_sha: ae111e53ae5f3ef8d2570439d26d905612ee223e  # master as of 2017-03-01
+
+grafana_influxdb_datasource_name: collectd (managed by ansible)
+grafana_influxdb_user: root
+grafana_influxdb_password: root
+
+grafana_package_version: 4.1.2
+grafana_packages:
+  - "grafana-{{ grafana_package_version }}"
+  - git  # Needed for installing getdash.js
+
+grafana_port: 3000
+
+grafana_repo: https://packagecloud.io/grafana/stable/el/$releasever/$basearch
+grafana_repo_key: https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana
+
+grafana_root_dir: /usr/share/grafana

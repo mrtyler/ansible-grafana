@@ -1,2 +1,6 @@
 ---
-# handlers file for ansible-role-grafana
+- name: install getdash.js
+  command: ./install.sh "{{ grafana_root_dir }}"
+  args:
+    chdir: "{{ grafana_getdash_js_dest }}"
+  become: true
