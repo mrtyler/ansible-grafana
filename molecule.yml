@@ -14,7 +14,7 @@ vagrant:
         memory: 256
         cpus: 1
   instances:
-    - name: ansible-role-grafana
+    - name: ansible-grafana
       ansible_groups:
         - group1
   # Not necessary, but useful for manual debugging

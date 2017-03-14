@@ -93,7 +93,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-        - ansible-role-grafana
+        - ansible-grafana
           grafana_package_version: 1.2.0
 
 Tests
