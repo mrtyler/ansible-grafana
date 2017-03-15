@@ -40,6 +40,7 @@
     repo: "{{ grafana_getdash_js_repo }}"
     version: "{{ grafana_getdash_js_sha }}"
     dest: "{{ grafana_getdash_js_dest }}"
+    force: yes
     # getdash.js recomments depth=1 but git in centos7.3 is "too old to fully support the depth argument."
   notify:
     - install getdash.js
