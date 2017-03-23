@@ -12,7 +12,7 @@ grafana_influxdb_datasource_name: collectd (managed by ansible)
 grafana_influxdb_user: root
 grafana_influxdb_password: root
 
-grafana_package_version: 4.1.2
+grafana_package_version: 4.2.0
 grafana_packages:
   - "grafana-{{ grafana_package_version }}"
   - git  # Needed for installing getdash.js
