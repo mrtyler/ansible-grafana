@@ -1,3 +1,4 @@
+ansible == 2.2.1.0  # https://github.com/ansible/ansible/issues/23016
 flake8
 molecule
 python-vagrant
