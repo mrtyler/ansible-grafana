@@ -38,12 +38,13 @@
 - name: Fetch getdash.js
   git:
     repo: "{{ grafana_getdash_js_repo }}"
-    version: "{{ grafana_getdash_js_sha }}"
     dest: "{{ grafana_getdash_js_dest }}"
     force: yes
     # getdash.js recomments depth=1 but git in centos7.3 is "too old to fully support the depth argument."
   notify:
     - install getdash.js
+  tags:
+    - skip_ansible_lint  # Explicit version recommended for git checkout
 
 - name: Wait for grafana to start
   wait_for:
