@@ -6,15 +6,13 @@ grafana_admin_password_is_changed_file: /usr/share/grafana/admin_password_is_cha
 
 grafana_getdash_js_dest: /tmp/getdash_js
 grafana_getdash_js_repo: https://github.com/anryko/grafana-influx-dashboard.git
-grafana_getdash_js_sha: ae1c7bd673fbb8adbe0882751d303172c9bcfc28  # master as of 2017-03-14
 
 grafana_influxdb_datasource_name: collectd (managed by ansible)
 grafana_influxdb_user: root
 grafana_influxdb_password: root
 
-grafana_package_version: 4.1.2
 grafana_packages:
-  - "grafana-{{ grafana_package_version }}"
+  - grafana
   - git  # Needed for installing getdash.js
 
 grafana_port: 3000
