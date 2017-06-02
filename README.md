@@ -1,7 +1,7 @@
 Ansible role: grafana
-=========
+=====================
 
-Minimal Ansible role to manage grafana on CentOS 7.3.
+Minimal Ansible role to manage grafana on CentOS 7.
 
 Here's what it does:
 
@@ -10,9 +10,9 @@ Here's what it does:
  * Change default password
  * Configure Influxdb datasource
 
-Here's what it doesn't do:
+TODO:
 
- * Verify that getdash.js actually works (I couldn't figure out how to discover or access scripted dashboards like getdash.js through the Grafana HTTP API, nor how to do much of anything with Grafana via HTTP that wasn't the API.)
+ * Automatically verify that getdash.js works
 
 Requirements
 ------------
@@ -48,10 +48,6 @@ getdash.js upstream repo
 
     grafana_getdash_js_repo: https://github.com/anryko/grafana-influx-dashboard.git
 
-getdash.js version (git sha from ``grafana_getdash_js_repo``)
-
-    grafana_getdash_js_sha: ae111e53ae5f3ef8d2570439d26d905612ee223e  # master as of 2017-03-01
-
 Name given to influxdb datasource. If a datasource with this name already exists, ansible will not attempt to re-add it.
 
     grafana_influxdb_datasource_name: collectd (managed by ansible)
@@ -64,14 +60,10 @@ Influxdb password
 
     grafana_influxdb_password: root
 
-Grafana version to install
-
-    grafana_package_version: 4.1.2
-
 Grafana packages (including helper packages) to install
 
     grafana_packages:
-    - "grafana-{{ grafana_package_version }}"
+    - grafana
     - git  # Needed for installing getdash.js
 
 Port where Grafana server listens
@@ -94,7 +86,6 @@ Example Playbook
     - hosts: servers
       roles:
         - ansible-grafana
-          grafana_package_version: 1.2.0
 
 Tests
 -----
@@ -112,3 +103,4 @@ Author Information
 ------------------
 
 Raising the Floor - US
+OCAD University
