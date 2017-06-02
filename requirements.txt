@@ -1,3 +1,5 @@
+ansible
 flake8
 molecule
+setuptools
 python-vagrant
