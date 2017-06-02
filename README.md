@@ -1,7 +1,7 @@
 Ansible role: grafana
-=========
+=====================
 
-Minimal Ansible role to manage grafana on CentOS 7.3.
+Minimal Ansible role to manage grafana on CentOS 7.
 
 Here's what it does:
 
@@ -10,9 +10,9 @@ Here's what it does:
  * Change default password
  * Configure Influxdb datasource
 
-Here's what it doesn't do:
+TODO:
 
- * Verify that getdash.js actually works (I couldn't figure out how to discover or access scripted dashboards like getdash.js through the Grafana HTTP API, nor how to do much of anything with Grafana via HTTP that wasn't the API.)
+ * Automatically verify that getdash.js works
 
 Requirements
 ------------
@@ -103,3 +103,4 @@ Author Information
 ------------------
 
 Raising the Floor - US
+OCAD University
